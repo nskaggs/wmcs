@@ -57,7 +57,7 @@ def print_result(config, result):
 
 
 def request_query_list(config, query):
-    request_url = "{}/api/dcim/devices/?q={}".format(config.netbox_url, query)
+    request_url = "{}/api/dcim/devices/?q={}&limit=500".format(config.netbox_url, query)
     request_headers = {"Authorization": "Token {}".format(config.api_token)}
     return requests.get(url=request_url, headers=request_headers)
 
@@ -103,7 +103,15 @@ def main():
     for result in r.json()["results"]:
         print_result(config, result)
 
-    r = request_query_list(config, "lab")
+    r = request_query_list(config, "labstore")
+    for result in r.json()["results"]:
+        print_result(config, result)
+
+    r = request_query_list(config, "labweb")
+    for result in r.json()["results"]:
+        print_result(config, result)
+
+    r = request_query_list(config, "labpuppet")
     for result in r.json()["results"]:
         print_result(config, result)
 
